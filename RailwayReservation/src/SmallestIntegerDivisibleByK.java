@@ -1,0 +1,16 @@
+public class SmallestIntegerDivisibleByK {
+    public static void main(String[] args) {
+        System.out.println(my(7));
+    }
+
+    static int my(int k) {
+        int rem = 0;
+        for (int i = 1; i <= k; i++) {
+            rem = (rem * 10 + 1) % k;
+            if (rem == 0) {
+                return i;
+            }
+        }
+        return -1;
+    }
+}
