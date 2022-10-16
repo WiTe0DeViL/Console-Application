@@ -3,10 +3,10 @@ package view;
 import controller.Admin;
 import controller.ManageUser;
 import controller.SearchTrain;
+import controller.Validation;
 import model.Train;
 import model.User;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -27,7 +27,7 @@ public class UserOption {
     Admin admin = null;
     SearchTrain searchTrain = null;
 
-    static Connection connector = null;
+    Validation validation = null;
 
     public UserOption() {
         manageUser = new ManageUser();
@@ -53,8 +53,6 @@ public class UserOption {
     private void search() throws SQLException, ParseException {
 //        System.out.println("Do ou want to display all trains");
         searchTrain = new SearchTrain();
-//        ResultSet resultSet = searchTrain.getTrain();
-//        displayTrainDetails(resultSet);
         System.out.print("Depart From : ");
         String from = input.next().toLowerCase();
         System.out.print("Depart To : ");
@@ -63,21 +61,39 @@ public class UserOption {
         String data = input.next();
         Date searchDate = new SimpleDateFormat("dd/MM/yyyy").parse(data);
         Train trainDetails = searchTrain.search(from, to, searchDate);
+        System.out.printf("|----------------------- %-15s -----------------------|%n", "Search Results!");
         if (trainDetails != null) {
-            System.out.printf("|----------------------- %-15s |-----------------------|%n", "Search Results!");
             System.out.printf("%-10s  %-6s  %-11s  %-15s  %-15s  %-15s  %n", "TrainCode", "Seats", "Compartment", "From", "TO", "Date");
             System.out.printf("%-10s  %-6s  %-11s  %-15s  %-15s  %-15s  %n",
                     trainDetails.getTrainCode(), trainDetails.getSeat(), trainDetails.getCompartment(),
                     trainDetails.getDepartFrom(), trainDetails.getDepartTo(),
                     new SimpleDateFormat("dd/MM/yyyy").format(trainDetails.getDate()));
-        } else
+        } else {
             System.out.println("Sorry the route you mentioned yet to be added!");
+            displayTrainDetails();
+        }
+    }
+
+    private void displayTrainDetails() throws SQLException {
+        System.out.println("Did you want to display the train details");
+        System.out.print("[Y] : YES , [N] : NO ");
+        System.out.print("Enter your option : ");
+        char option = input.next().toLowerCase().charAt(0);
+        validation = new Validation();
+        while (!validation.validateYON(option)) {
+            System.out.print("Enter only YES or NO : ");
+            option = new Scanner(System.in).next().toLowerCase().charAt(0);
+        }
+        if (option == 'y') {
+            ResultSet resultSet = searchTrain.getTrain();
+            availableTrains(resultSet);
+        }
     }
 
 
-    public void displayTrainDetails(ResultSet resultSet) throws SQLException {
+    public void availableTrains(ResultSet resultSet) throws SQLException {
         System.out.println("---------------------------------------------------");
-        System.out.printf(" %-10s|%-6s|%-11s|%-15s|%-15s|%n", "TrainCode", "Seats", "Compartment", "From", "TO");
+        System.out.printf("%-10s|%-6s|%-11s|%-15s|%-15s|%n", "TrainCode", "Seats", "Compartment", "From", "TO");
         System.out.println("---------------------------------------------------");
         while (resultSet.next()) {
             String traincode = resultSet.getString("traincode");
