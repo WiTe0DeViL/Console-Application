@@ -3,6 +3,7 @@ package view;
 import controller.Admin;
 import controller.ManageUser;
 import controller.SearchTrain;
+import model.Train;
 import model.User;
 
 import java.sql.Connection;
@@ -51,22 +52,32 @@ public class UserOption {
 
     private void search() throws SQLException, ParseException {
 //        System.out.println("Do ou want to display all trains");
-        ResultSet resultSet = searchTrain.getTrain();
-        displayTrainDetails(resultSet);
-//        System.out.print("Depart From : ");
-//        String from = input.next();
-//        System.out.print("Depart To : ");
-//        String to = input.next();
-//        System.out.print("Enter the date in the format of (DD/MM/YYYY) : ");
-//        String data = input.next();
-//        Date date = new SimpleDateFormat("dd/MM/yyyy").parse(data);
-//        new SearchTrain().search(from,to);
+        searchTrain = new SearchTrain();
+//        ResultSet resultSet = searchTrain.getTrain();
+//        displayTrainDetails(resultSet);
+        System.out.print("Depart From : ");
+        String from = input.next().toLowerCase();
+        System.out.print("Depart To : ");
+        String to = input.next().toLowerCase();
+        System.out.print("Enter the date in the format of (DD/MM/YYYY) : ");
+        String data = input.next();
+        Date searchDate = new SimpleDateFormat("dd/MM/yyyy").parse(data);
+        Train trainDetails = searchTrain.search(from, to, searchDate);
+        if (trainDetails != null) {
+            System.out.printf("|----------------------- %-15s |-----------------------|%n", "Search Results!");
+            System.out.printf("%-10s  %-6s  %-11s  %-15s  %-15s  %-15s  %n", "TrainCode", "Seats", "Compartment", "From", "TO", "Date");
+            System.out.printf("%-10s  %-6s  %-11s  %-15s  %-15s  %-15s  %n",
+                    trainDetails.getTrainCode(), trainDetails.getSeat(), trainDetails.getCompartment(),
+                    trainDetails.getDepartFrom(), trainDetails.getDepartTo(),
+                    new SimpleDateFormat("dd/MM/yyyy").format(trainDetails.getDate()));
+        } else
+            System.out.println("Sorry the route you mentioned yet to be added!");
     }
 
 
     public void displayTrainDetails(ResultSet resultSet) throws SQLException {
         System.out.println("---------------------------------------------------");
-        System.out.printf("|%-10s|%-3s|%-2s|%-15s|%-15s|%n", "TrainCode", "Seats", "Compartment", "From", "TO");
+        System.out.printf(" %-10s|%-6s|%-11s|%-15s|%-15s|%n", "TrainCode", "Seats", "Compartment", "From", "TO");
         System.out.println("---------------------------------------------------");
         while (resultSet.next()) {
             String traincode = resultSet.getString("traincode");
@@ -74,7 +85,7 @@ public class UserOption {
             int comp = resultSet.getInt("compartment");
             String from = resultSet.getString("departfrom");
             String to = resultSet.getString("departto");
-            System.out.printf("|%-10s|%-3s|%-2s|%-15s|%-15s|%n", traincode, seats, comp, from, to);
+            System.out.printf("|%-10s|%-6s|%-11s|%-15s|%-15s|%n", traincode, seats, comp, from, to);
         }
         System.out.println("----------------------------------------------------");
 

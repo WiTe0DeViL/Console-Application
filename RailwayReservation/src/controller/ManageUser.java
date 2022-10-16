@@ -31,12 +31,11 @@ public class ManageUser implements Processable {
 
     public byte isValidOption() {
         byte option;
-        WHILE_LABEL:
         while (true) {
             try {
                 option = new Scanner(System.in).nextByte();
-                if (option == 1 || option == 2) break WHILE_LABEL;
-                if (option <= 0 || option > 2) throw new InputMismatchException();
+                if (option == 1 || option == 3) break;
+                if (option <= 0 || option > 3) throw new InputMismatchException();
             } catch (InputMismatchException e) {
                 System.out.println("Enter Correct Option : ");
             }
