@@ -2,9 +2,8 @@ package controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Scanner;
 
-public class Validation {
+class Validation {
     public boolean validator(ResultSet resultSet, String email, String password) throws SQLException {
         boolean flag = false;
         while (resultSet.next()) {
@@ -16,9 +15,5 @@ public class Validation {
             }
         }
         return flag;
-    }
-
-    public boolean validateYON(char option) {
-        return option == 'y' || option == 'n';
     }
 }
