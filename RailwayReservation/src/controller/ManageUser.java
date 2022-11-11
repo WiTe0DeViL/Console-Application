@@ -1,7 +1,6 @@
 package controller;
 
 
-import com.mysql.cj.util.StringInspector;
 import model.User;
 
 import java.sql.*;
@@ -17,7 +16,7 @@ public class ManageUser implements Processable {
     }
 
     @Override
-    public boolean login(String email, String password) throws SQLException {
+    public User login(String email, String password) throws SQLException {
         connector = DataBaseConnection.connect();
         Statement statement = connector.createStatement();
         ResultSet resultSet = statement.executeQuery(loginFetch + "user");
@@ -34,7 +33,7 @@ public class ManageUser implements Processable {
         while (true) {
             try {
                 option = new Scanner(System.in).nextByte();
-                if (option == 1 || option == 3) break;
+                if (option == 1 || option == 3 || option == 2) break;
                 if (option <= 0 || option > 3) throw new InputMismatchException();
             } catch (InputMismatchException e) {
                 System.out.println("Enter Correct Option : ");
@@ -47,7 +46,7 @@ public class ManageUser implements Processable {
         connector = DataBaseConnection.connect();
         PreparedStatement preparedStatement = connector.prepareStatement(register);
         preparedStatement.setString(1, user.getName());
-        preparedStatement.setByte(2, user.getAge());
+        preparedStatement.setInt(2, user.getAge());
         preparedStatement.setString(3, user.getEmail());
         preparedStatement.setString(4, user.getPassword());
 
@@ -56,6 +55,10 @@ public class ManageUser implements Processable {
         if (row > 0)
             System.out.println("User registered!");
         else System.err.println("Error Occurred");
+
+    }
+
+    public void userProcess(User user) {
 
     }
 }

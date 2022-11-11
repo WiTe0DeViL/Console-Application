@@ -1,5 +1,6 @@
 package controller;
 
+import model.User;
 import view.UserOption;
 
 import java.sql.*;
@@ -16,7 +17,7 @@ public class Admin implements Processable {
     }
 
     @Override
-    public boolean login(String email, String password) throws SQLException {
+    public User login(String email, String password) throws SQLException {
         connector = DataBaseConnection.connect();
         Statement statement = connector.createStatement();
         ResultSet resultSet = statement.executeQuery(loginFetch + "admin");

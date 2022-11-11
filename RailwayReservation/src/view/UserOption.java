@@ -94,9 +94,13 @@ public class UserOption {
 
     private void loginProcess() throws SQLException {
         String[] credentials = loginCredentials();
-        if (manageUser.login(credentials[0], credentials[1]))
+        User user = manageUser.login(credentials[0], credentials[1]);
+        User adminUser = admin.login(credentials[0], credentials[1]);
+        if (user != null){
             System.out.println("User Logged In!");
-        else if (admin.login(credentials[0], credentials[1])) {
+            manageUser.userProcess(user);
+        }
+        else if (adminUser != null) {
             System.out.println("Admin Logged In!");
             adminOptions();
         } else System.out.println("Invalid User!");
@@ -131,7 +135,7 @@ public class UserOption {
         System.out.print("Enter your name : ");
         String name = input.next();
         System.out.print("Enter your age : ");
-        Byte age = input.nextByte();
+        int age = input.nextInt();
         System.out.print("Enter your email : ");
         String email = input.next();
         System.out.print("Enter your password : ");
@@ -143,9 +147,7 @@ public class UserOption {
         else {
             System.out.println("Confirm Password Mismatch ");
             System.out.print("Enter correct Confirm Password : ");
-
         }
-
     }
 
     String[] loginCredentials() {
@@ -155,6 +157,4 @@ public class UserOption {
         String password = input.next();
         return new String[]{email, password};
     }
-
-
 }

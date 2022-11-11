@@ -2,19 +2,33 @@ package model;
 
 // POJO class
 public class User {
-    private byte age;
-    private String phone;
+    private int id;
+    private int age;
     private String email;
     private String name;
 
     private String password;
 
     private String phoneNumbers;
-    public User(String name, byte age, String email, String password) {
+
+    public User(int id, String name, int age, String email, String password) {
+        this.id = id;
         this.name = name;
         this.age = age;
         this.email = email;
         this.password = password;
+    }
+
+    public User(String name, int age, String email, String password) {
+        this.name = name;
+        this.age = age;
+        this.email = email;
+        this.password = password;
+    }
+
+    public User(String name,String email){
+        this.name = name;
+        this.email = email;
     }
 
     public String getName() {
@@ -25,20 +39,12 @@ public class User {
         this.name = name;
     }
 
-    public byte getAge() {
+    public int getAge() {
         return age;
     }
 
     public void setAge(byte age) {
         this.age = age;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 
     public String getEmail() {
