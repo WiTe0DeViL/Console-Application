@@ -4,11 +4,11 @@ package bankConsoleApplication;
 public class Bank {
 
     public static void main(String[] args) {
-        new UserList();
+        new Admin();
         System.out.println("================================================");
         System.out.printf("|     %-41s|%n", "Welcome to Bank Console Application");
         System.out.println("================================================");
-        new BankingProcess().processing();
+        new ManageUser().processing();
 
     }
 

@@ -1,8 +1,8 @@
 package bankConsoleApplication;
 
-class UserList {
+class Admin {
 
-    UserList() {
+    Admin() {
         hardCode();
     }
 
@@ -18,7 +18,7 @@ class UserList {
 
     private static void hardCode() {
         for (String[] user : users)
-            new BankingProcess().userList.add(new User(user[0], Integer.parseInt(user[1]), user[2], user[3]));
+            ManageUser.userList.add(new User(user[0], Integer.parseInt(user[1]), user[2], user[3]));
     }
 
 }
