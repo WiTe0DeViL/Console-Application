@@ -10,7 +10,7 @@ public class ManageUser {
 
     ViewUserOptions viewUserOptions;
 
-    void processing() {
+    void isValidUser() {
         viewUserOptions = new ViewUserOptions();
         validUser();
         boolean customertIDisPresent = false;
@@ -36,7 +36,7 @@ public class ManageUser {
         System.out.println("\n1.Yes\n2.NO");
         System.out.print("\nSelect option : ");
         if (input.nextInt() == 1)
-            processing();
+            isValidUser();
         else {
             System.out.println(" ====================================");
             System.out.printf("|       %-27s |%n", "Have a Nice Day");
